@@ -94,21 +94,25 @@ window.onload = function init(){
 function heroWallCollision(){
 	// right wall collision
 	if(hero.x > 997){
-		hero.x = 900;
+		hero.xdir = (hero.xdir * -1);
+		hero.x = 990;
 	}
 	// left wall collision
 	if(hero.x < 3){
-		hero.x = 45;
+		hero.xdir = (hero.xdir * -1);
+		hero.x = 10;
 	}
 	
 	// botton wall collision
 	if(hero.z > -3){
-		hero.z = -40;
+		hero.zdir = (hero.zdir * -1);
+		hero.z = -10;
 	}
 	
 	// top wall collision
 	if(hero.z < -998){
-		hero.z = -948;
+		hero.zdir = (hero.zdir * -1);
+		hero.z = -988;
 	}
 }
 
@@ -143,7 +147,7 @@ function render()
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
     arena.show();
-	console.log(villain.z);
+	console.log(hero.xdir);
 	
 	hero.show();
 	
