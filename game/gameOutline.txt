@@ -5,7 +5,8 @@ there will be a new set of cars randomly generated on the board. Once the time r
 be declared.
 
 TODO:
-1. wall collision for hero and villain
+*1. wall collision for hero
+1a. wall collision for villain
 2. if user hits object, object disappears and counter is inc
 3. generate N objects on page load in random locations
 4. regenerate objects once threshold has been meet
@@ -16,7 +17,7 @@ TODO:
 Add ons:
 1. Obstacles and collision for them
 2. power ups
-3. multi key movement (strafing)
+*3. multi key movement (strafing)
 4. at xx:xx time generate special item
 5. texture walls / arena
 6. win/lose splash screen

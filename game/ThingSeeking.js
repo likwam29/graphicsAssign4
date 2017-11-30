@@ -15,6 +15,7 @@ function ThingSeeking(program, x, y, z, degrees, bounding_cir_rad)  {
     this.iBuffer = null;
     this.vPosition = null;
     this.vNormal = null;
+	this.isHit = false;
 };
 
 ThingSeeking.prototype = Object.create(GameObject.prototype);
@@ -35,10 +36,15 @@ ThingSeeking.prototype.init = function() {
 };
 
 ThingSeeking.prototype.show = function() {
+	
+	// This will make it so when a object is hit it no loger shows up in the screen
+	if(this.isHit){
+		return;
+	}
 
     g_matrixStack.push(modelViewMatrix);
     modelViewMatrix = mult(modelViewMatrix, translate(this.x, 0.0, this.z));
-    modelViewMatrix = mult(modelViewMatrix, scalem(0.8,0.8,0.8));
+    modelViewMatrix = mult(modelViewMatrix, scalem(0.2,0.2,0.2));
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBuffer );
     this.vPosition = gl.getAttribLocation( program, "vPosition" );

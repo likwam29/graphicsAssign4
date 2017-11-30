@@ -44,6 +44,7 @@ var villain;
 
 var g_matrixStack = []; // Stack for storing a matrix
 
+
 window.onload = function init(){
     canvas = document.getElementById( "gl-canvas" );
     
@@ -82,7 +83,8 @@ window.onload = function init(){
     hero = new Hero(program, eyex, 0.0, eyez, 45, 10.0);
     hero.init();
 
-    thingSeeking = new ThingSeeking(program, ARENASIZE/4.0, 0.0, -ARENASIZE/4.0, 0, 10.0);
+	// this defines where to put the vw on the page.
+    thingSeeking = new ThingSeeking(program, ARENASIZE/3.0, 0.0, -ARENASIZE/3.0, 0, 10.0);
     thingSeeking.init();
 
     villain = new Villain(program, (3*ARENASIZE)/4.0, 0.0, -ARENASIZE/4.0, 0, 10.0);
@@ -90,6 +92,20 @@ window.onload = function init(){
     
     render();
 };
+
+function heroItemCollision(){
+	// if hero.x is within thingSeeking.x +/- thingSeeking.bounding
+	// And if hero.z is within thingSeeking.z +/- thingSeeking.bounding
+	// then collision has happend
+	var thingX = thingSeeking.x;
+	var thingZ = thingSeeking.z;
+	var bound = thingSeeking.bounding_cir_rad;
+	if(hero.x >= (thingX - bound) && hero.x <= (thingX + bound) && hero.z <= (thingZ + bound) && hero.z >= (thingZ - bound)){
+		thingSeeking.isHit = true;
+	}else{
+		thingSeeking.isHit = false;
+	}
+}
 
 function heroWallCollision(){
 	// right wall collision
@@ -129,10 +145,14 @@ function heroVillianCollision(){
 
 function render()
 {
+	// this needs to be here so while holding movement key it still moves.
+	executeMovement();
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	
-	heroVillianCollision()
+	heroItemCollision();
+	//heroVillianCollision()
 	heroWallCollision();
+	
     
     // Hero's eye viewport 
     gl.viewport( vp1_left, vp1_bottom, (HERO_VP * width), height );
@@ -179,28 +199,35 @@ function render()
 
 // Key listener
 
-window.onkeydown = function(event) {
-    var key = String.fromCharCode(event.keyCode);
-    // For letters, the upper-case version of the letter is always
-    // returned because the shift-key is regarded as a separate key in
-    // itself.  Hence upper- and lower-case can't be distinguished.
-    switch (key) {
-    case 'S':
-	// Move backward
-	hero.move(-2.0);
-	break;
-    case 'W':
-	// Move forward
-	hero.move(6.0);
-	break;
-    case 'D':
-	// Turn left 
-	hero.turn(3);
-	break;
-    case 'A':
-	// Turn right 
-	hero.turn(-3);
-	break;
+var keyMap = [];
+document.addEventListener("keydown", onDocumentKeyDown, true); 
+document.addEventListener("keyup", onDocumentKeyUp, true);
+function onDocumentKeyDown(event){
+    var keyCode = event.keyCode;
+    keyMap[keyCode] = true;
+    executeMovement();
+}
+function onDocumentKeyUp(event){
+    var keyCode = event.keyCode;
+    keyMap[keyCode] = false;
+    executeMovement();
+}
+function executeMovement(){
+    if(keyMap[37] == true){
+        //rotate left
+		hero.turn(-3);
     }
-};
+    if(keyMap[39] == true){
+        //rotate right
+		hero.turn(3);
+    }
+    if(keyMap[38] == true){
+        //move front
+		hero.move(4.0);
+    }
+    if(keyMap[40] == true){
+        //move back
+		hero.move(-2.0);
+	}
+}
 
