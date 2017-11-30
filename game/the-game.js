@@ -37,10 +37,17 @@ var modelViewMatrixLoc, projectionMatrixLoc;
 
 var program;
 
+var totalItems = 5;
+
 var arena;
 var hero;
 var thingSeeking;
 var villain;
+
+var heroCounter = 0;
+var villainCounter = 0;
+
+
 
 var g_matrixStack = []; // Stack for storing a matrix
 
@@ -84,8 +91,7 @@ window.onload = function init(){
     hero.init();
 
 	// this defines where to put the vw on the page.
-    thingSeeking = new ThingSeeking(program, ARENASIZE/3.0, 0.0, -ARENASIZE/3.0, 0, 10.0);
-    thingSeeking.init();
+    thingSeeking = createItems(totalItems);
 
     villain = new Villain(program, (3*ARENASIZE)/4.0, 0.0, -ARENASIZE/4.0, 0, 10.0);
     villain.init();
@@ -93,18 +99,36 @@ window.onload = function init(){
     render();
 };
 
-function heroItemCollision(){
+function createItems(numItems){
+	var retArray = [];
+	for(var i=0; i<numItems; i++){
+		var temp = new ThingSeeking(program, ARENASIZE/(3.0 + i), 0.0, -ARENASIZE/3.0, 0, 10.0);
+		temp.init();
+		retArray.push(temp);
+	}
+	return retArray;
+}
+
+function itemCollision(){
 	// if hero.x is within thingSeeking.x +/- thingSeeking.bounding
 	// And if hero.z is within thingSeeking.z +/- thingSeeking.bounding
 	// then collision has happend
-	var thingX = thingSeeking.x;
-	var thingZ = thingSeeking.z;
-	var bound = thingSeeking.bounding_cir_rad;
-	if(hero.x >= (thingX - bound) && hero.x <= (thingX + bound) && hero.z <= (thingZ + bound) && hero.z >= (thingZ - bound)){
-		thingSeeking.isHit = true;
-	}else{
-		thingSeeking.isHit = false;
+	for(var i=0; i<totalItems; i++){
+		var thingX = thingSeeking[i].x;
+		var thingZ = thingSeeking[i].z;
+		var bound = thingSeeking[i].bounding_cir_rad;
+		if(hero.x >= (thingX - bound) && hero.x <= (thingX + bound) && hero.z <= (thingZ + bound) && hero.z >= (thingZ - bound)){
+			
+			heroCounter++;
+			thingSeeking[i].isHit = true;
+		}
+		
+		if(villain.x >= (thingX - bound) && villain.x <= (thingX + bound) && villain.z <= (thingZ + bound) && villain.z >= (thingZ - bound)){
+			villainCounter++;
+			thingSeeking[i].isHit = true;
+		}
 	}
+	
 }
 
 function heroWallCollision(){
@@ -149,7 +173,7 @@ function render()
 	executeMovement();
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	
-	heroItemCollision();
+	itemCollision();
 	//heroVillianCollision()
 	heroWallCollision();
 	
@@ -167,12 +191,13 @@ function render()
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
     arena.show();
-	console.log(hero.xdir);
 	
 	hero.show();
 	
+    for(var i=0; i<totalItems; i++){
+		thingSeeking[i].show();
+	}
     
-    thingSeeking.show();
 	
 	villain.show();
 	
@@ -189,7 +214,10 @@ function render()
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
     arena.show();
     hero.show();
-    thingSeeking.show();
+	
+    for(var i=0; i<totalItems; i++){
+		thingSeeking[i].show();
+	}
 	
 	villain.show();
 	
