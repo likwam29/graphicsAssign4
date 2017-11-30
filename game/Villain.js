@@ -121,9 +121,10 @@ Villain.prototype.init = function() {
 Villain.prototype.show = function() {
 
     g_matrixStack.push(modelViewMatrix);
-    this.rotate = this.rotate + 0.5;
+	// the speed the cube rotates
+    this.rotate = this.rotate + 0.95;
     modelViewMatrix = mult(modelViewMatrix, translate(this.x, 0.0, this.z));
-    modelViewMatrix = mult(modelViewMatrix, scalem(50.0,50.0,50.0));
+    modelViewMatrix = mult(modelViewMatrix, scalem(20.0,20.0,20.0));
     modelViewMatrix = mult(modelViewMatrix, rotateY(this.rotate));
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBuffer );

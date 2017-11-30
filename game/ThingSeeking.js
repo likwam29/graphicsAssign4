@@ -58,9 +58,10 @@ ThingSeeking.prototype.show = function() {
 
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, this.iBuffer );
 
-    var ambientProduct = mult(la0, red);
-    var diffuseProduct = mult(ld0, red);
-    var specularProduct = mult(ls0, red);
+	// This is the color of the vw
+    var ambientProduct = mult(la0, green);
+    var diffuseProduct = mult(ld0, green);
+    var specularProduct = mult(ls0, green);
     
     gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"),
 		  flatten(ambientProduct));

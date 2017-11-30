@@ -29,7 +29,7 @@ var ms   = [ 0.6  , 0.7, 0.6  , 1.0 ]; // material specular
 var me      = 75;             // shininess exponent 
 const red  = [ 1.0,0.0,0.0, 1.0 ]; // pure red 
 const blue = [ 0.0,0.0,1.0, 1.0 ]; // pure blue 
-const green = [ 0.0,1.0,0.0, 1.0 ]; // pure blue 
+const green = [ 0.0,1.0,0.0, 1.0 ]; // pure green 
 const yellow = [ 1.0,1.0,0.0, 1.0 ]; // pure yellow
 
 var modelViewMatrix, projectionMatrix;
@@ -53,7 +53,9 @@ window.onload = function init(){
     
     //  Configure WebGL
     
-    gl.clearColor( 0.2, 0.2, 0.2, 1.0 );
+	
+	// This will dictate the sky color
+    gl.clearColor( 0.0, 0.75, 1.0, 1.0 );
 
     //  Load shaders and initialize attribute buffers
 
@@ -89,10 +91,44 @@ window.onload = function init(){
     render();
 };
 
+function heroWallCollision(){
+	// right wall collision
+	if(hero.x > 997){
+		hero.x = 900;
+	}
+	// left wall collision
+	if(hero.x < 3){
+		hero.x = 45;
+	}
+	
+	// botton wall collision
+	if(hero.z > -3){
+		hero.z = -40;
+	}
+	
+	// top wall collision
+	if(hero.z < -998){
+		hero.z = -948;
+	}
+}
+
+function heroVillianCollision(){
+	// this kinda works, but it's not very smooth
+	// the parseInt is there because the hero's location is a float
+	if(parseInt(hero.x) == villain.x){
+		hero.x -= 500;
+	}
+	if(parseInt(hero.z) == villain.z){
+		hero.z -= 500;
+	}
+}
+
 function render()
 {
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
+	
+	heroVillianCollision()
+	heroWallCollision();
     
     // Hero's eye viewport 
     gl.viewport( vp1_left, vp1_bottom, (HERO_VP * width), height );
@@ -107,9 +143,15 @@ function render()
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
     arena.show();
-    hero.show();
+	console.log(villain.z);
+	
+	hero.show();
+	
+    
     thingSeeking.show();
-    villain.show();
+	
+	villain.show();
+	
     
     // Overhead viewport 
     var horiz_offset = (width * (1.0 - HERO_VP) / 20.0);
@@ -124,7 +166,9 @@ function render()
     arena.show();
     hero.show();
     thingSeeking.show();
-    villain.show();
+	
+	villain.show();
+	
 
     requestAnimFrame( render );
 };
@@ -139,11 +183,11 @@ window.onkeydown = function(event) {
     switch (key) {
     case 'S':
 	// Move backward
-	hero.move(-3.0);
+	hero.move(-2.0);
 	break;
     case 'W':
 	// Move forward
-	hero.move(3.0);
+	hero.move(6.0);
 	break;
     case 'D':
 	// Turn left 

@@ -82,10 +82,11 @@ function Arena () {
 	}
 	gl.vertexAttribPointer( this.vNormal, 3, gl.FLOAT, false, 0, 0 );
 	gl.enableVertexAttribArray( this.vNormal );
-
-	var ambientProduct = mult(la0, ma);
-	var diffuseProduct = mult(ld0, md);
-	var specularProduct = mult(ls0, ms);
+	
+	// This is the wall's color
+	var ambientProduct = mult(la0, red);
+	var diffuseProduct = mult(ld0, red);
+	var specularProduct = mult(ls0, red);
 	
 	gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"),
 		      flatten(ambientProduct));
@@ -98,11 +99,13 @@ function Arena () {
 	gl.uniform1f(gl.getUniformLocation(program, "shininess"),
 		     me);
 	
+	// This will draw the walls
 	gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 	gl.drawArrays(gl.TRIANGLE_FAN, 4, 4);
 	gl.drawArrays(gl.TRIANGLE_FAN, 8, 4);
 	gl.drawArrays(gl.TRIANGLE_FAN, 12, 4);
 
+	// This is the floor's color
 	ambientProduct = mult(la0, blue);
 	//	ambientProduct = mult(vec4(1.0,1.0,1.0,1.0), blue);
 	diffuseProduct = mult(ld0, blue);
