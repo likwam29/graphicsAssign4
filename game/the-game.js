@@ -37,7 +37,7 @@ var modelViewMatrixLoc, projectionMatrixLoc;
 
 var program;
 
-var totalItems = 5;
+var totalItems = 15;
 
 var arena;
 var hero;
@@ -113,6 +113,7 @@ function itemCollision(){
 	// if hero.x is within thingSeeking.x +/- thingSeeking.bounding
 	// And if hero.z is within thingSeeking.z +/- thingSeeking.bounding
 	// then collision has happend
+	
 	for(var i=0; i<totalItems; i++){
 		var thingX = thingSeeking[i].x;
 		var thingZ = thingSeeking[i].z;
@@ -121,11 +122,23 @@ function itemCollision(){
 			
 			heroCounter++;
 			thingSeeking[i].isHit = true;
+			/* 
+			 we have to change the x and z of the object just hit because it still
+			 exists on the page and will continue to hit it if we sit in the spot where it was
+			 causing the counter to keep running
+			 */
+			thingSeeking[i].x = -1000;
+			thingSeeking[i].z = -1000;
+			document.getElementById("heroScore").innerHTML = heroCounter;
+			break;
 		}
 		
 		if(villain.x >= (thingX - bound) && villain.x <= (thingX + bound) && villain.z <= (thingZ + bound) && villain.z >= (thingZ - bound)){
 			villainCounter++;
 			thingSeeking[i].isHit = true;
+			thingSeeking[i].x = -1000;
+			thingSeeking[i].z = -1000;
+			document.getElementById("villainScore").innerHTML = villainCounter;
 		}
 	}
 	
