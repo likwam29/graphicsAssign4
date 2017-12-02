@@ -99,10 +99,29 @@ window.onload = function init(){
     render();
 };
 
+
+// This function will create a ratio of the arena size.
+function ratioCreator(){
+	var first = Math.floor(Math.random() * 6) + 1;
+	var second = Math.floor(Math.random() * 6) + 1;
+	if(first > second){
+		var temp = second;
+		second = first;
+		first = temp;
+	}
+	
+	return ARENASIZE*first/second;
+}
+
 function createItems(numItems){
 	var retArray = [];
 	for(var i=0; i<numItems; i++){
-		var temp = new ThingSeeking(program, ARENASIZE/(3.0 + i), 0.0, -ARENASIZE/3.0, 0, 10.0);
+		
+		var arenaX = ratioCreator();
+		
+		var arenaZ = ratioCreator() * -1;
+		
+		var temp = new ThingSeeking(program, arenaX, 0.0, arenaZ, 0, 10.0);
 		temp.init();
 		retArray.push(temp);
 	}
@@ -121,23 +140,23 @@ function itemCollision(){
 		if(hero.x >= (thingX - bound) && hero.x <= (thingX + bound) && hero.z <= (thingZ + bound) && hero.z >= (thingZ - bound)){
 			
 			heroCounter++;
-			thingSeeking[i].isHit = true;
+			//thingSeeking[i].isHit = true;
 			/* 
 			 we have to change the x and z of the object just hit because it still
 			 exists on the page and will continue to hit it if we sit in the spot where it was
 			 causing the counter to keep running
 			 */
-			thingSeeking[i].x = -1000;
-			thingSeeking[i].z = -1000;
+			thingSeeking[i].x = ratioCreator();
+			thingSeeking[i].z = ratioCreator() * -1;
 			document.getElementById("heroScore").innerHTML = heroCounter;
 			break;
 		}
 		
 		if(villain.x >= (thingX - bound) && villain.x <= (thingX + bound) && villain.z <= (thingZ + bound) && villain.z >= (thingZ - bound)){
 			villainCounter++;
-			thingSeeking[i].isHit = true;
-			thingSeeking[i].x = -1000;
-			thingSeeking[i].z = -1000;
+			//thingSeeking[i].isHit = true;
+			thingSeeking[i].x = ratioCreator();
+			thingSeeking[i].z = ratioCreator() * -1;
 			document.getElementById("villainScore").innerHTML = villainCounter;
 		}
 	}
