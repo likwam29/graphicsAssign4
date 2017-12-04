@@ -47,8 +47,6 @@ var villain;
 var heroCounter = 0;
 var villainCounter = 0;
 
-
-
 var g_matrixStack = []; // Stack for storing a matrix
 
 
@@ -61,7 +59,6 @@ window.onload = function init(){
     
     //  Configure WebGL
     
-	
 	// This will dictate the sky color
     gl.clearColor( 0.0, 0.75, 1.0, 1.0 );
 
@@ -158,6 +155,7 @@ function itemCollision(){
 			thingSeeking[i].x = ratioCreator();
 			thingSeeking[i].z = ratioCreator() * -1;
 			document.getElementById("villainScore").innerHTML = villainCounter;
+			
 		}
 	}
 	
@@ -186,6 +184,29 @@ function heroWallCollision(){
 		hero.zdir = (hero.zdir * -1);
 		hero.z = -988;
 	}
+	
+	// right wall collision
+	if(villain.x > 997){
+		villain.xdir = (villain.xdir * -1);
+		villain.x = 990;
+	}
+	// left wall collision
+	if(villain.x < 3){
+		villain.xdir = (villain.xdir * -1);
+		villain.x = 10;
+	}
+	
+	// botton wall collision
+	if(villain.z > -3){
+		villain.zdir = (villain.zdir * -1);
+		villain.z = -10;
+	}
+	
+	// top wall collision
+	if(villain.z < -998){
+		villain.zdir = (villain.zdir * -1);
+		villain.z = -988;
+	}
 }
 
 function heroVillianCollision(){
@@ -199,6 +220,56 @@ function heroVillianCollision(){
 	}
 }
 
+// This function will move the villain toward the closest item at the time.
+function villainMove(){
+	var neg = -1.0;
+	var moveRate = 4.5;
+	var negX = true;
+	var negZ = true;
+	
+	var currX = villain.x;
+	var currZ = villain.z;
+	
+	// this will make it so the villain grabs all the items in order.
+	var nextVictim = villainCounter % totalItems;
+	
+	var closestX = thingSeeking[nextVictim].x;
+	var closestZ = thingSeeking[nextVictim].z;
+	// move towards closest x value, either positive or negative
+	
+	// move x and z closer to that item.
+	
+	if(currX > closestX){
+		negX = true;
+	}else{
+		negX = false;
+	}
+	
+	if(currZ > closestZ){
+		negZ = true;
+	}else{
+		negZ = false;
+	}
+	
+	if(negX){
+		// move left
+		villain.x += (moveRate) * neg;
+	}else{
+		// move right
+		villain.x += moveRate;
+	}
+	
+	// move toward closest z value, either positive or negative
+	
+	if(negZ){
+		// move up
+		villain.z += (moveRate) * neg;
+	}else{
+		// move down
+		villain.z += moveRate;
+	}
+}
+
 function render()
 {
 	// this needs to be here so while holding movement key it still moves.
@@ -209,6 +280,7 @@ function render()
 	//heroVillianCollision()
 	heroWallCollision();
 	
+	villainMove();
     
     // Hero's eye viewport 
     gl.viewport( vp1_left, vp1_bottom, (HERO_VP * width), height );
