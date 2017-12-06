@@ -25,12 +25,22 @@ var ls0  = [ 1.0,1.0,1.0, 1.0 ]; // light 0 specular
 var lp0  = [ 0.0,1.0,1.0, 1.0 ]; // light 0 position -- will adjust to hero's viewpoint 
 var ma   = [ 0.02 , 0.2  , 0.02 , 1.0 ]; // material ambient 
 var md   = [ 0.08, 0.6 , 0.08, 1.0 ]; // material diffuse 
-var ms   = [ 0.6  , 0.7, 0.6  , 1.0 ]; // material specular 
-var me      = 75;             // shininess exponent 
+var ms   = [ 0.06  , 0.7, 0.06  , 1.0 ]; // material specular 
+var me      =100;             // shininess exponent 
+
+//Lighting stuff for the second light
+var la02  = [ 0.5,0.1,0.2, 1.0 ]; // light 0 ambient intensity
+var ld02  = [ 1.0,1.0,1.0, 1.0 ]; // light 0 diffuse intensity 
+var ls02  = [ 0.0,0.20,0.0, 1.0 ]; // light 0 specular 
+var lp02  = [ 0.0,1.0,1.0, 1.0 ]; // light 0 position -- will adjust to hero's viewpoint 
+var me2      = 1;             // shininess exponent 
+
+
 const red  = [ 1.0,0.0,0.0, 1.0 ]; // pure red 
 const blue = [ 0.0,0.0,1.0, 1.0 ]; // pure blue 
 const green = [ 0.0,1.0,0.0, 1.0 ]; // pure green 
 const yellow = [ 1.0,1.0,0.0, 1.0 ]; // pure yellow
+
 
 var modelViewMatrix, projectionMatrix;
 var modelViewMatrixLoc, projectionMatrixLoc;
@@ -182,6 +192,7 @@ function heroWallCollision(){
 	// top wall collision
 	if(hero.z < -998){
 		hero.zdir = (hero.zdir * -1);
+		hero.degrees = (hero.degrees * -1);
 		hero.z = -988;
 	}
 	

@@ -11,28 +11,38 @@ uniform int texture_flag;
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 uniform vec4 ambientProduct, diffuseProduct, specularProduct;
+uniform vec4 ambientProduct2, diffuseProduct2, specularProduct2;
 uniform vec4 lightPosition;
+uniform vec4 lightPosition2;
 uniform float shininess;
+uniform float shininess2;
 
 varying vec4 fColor;
 varying vec2 fTexCoord;
 
 void main() 
 {
-  if (texture_flag == 0) {
+  //if (texture_flag == 0) {
     vec3 pos = (modelViewMatrix * vPosition).xyz;
+    vec3 pos2 = vNormal.xyz;
      
     //Light that moves with hero
     vec3 light = (modelViewMatrix * lightPosition).xyz;
+    vec3 Light2 = lightPosition.xyz;
  
     // Normalized vector from pos to light
  
     vec3 L = normalize( light - pos );
+    vec3 L2 = normalize( Light2 - pos2);
  
     // Next two lines compute halfway vector
      
     vec3 E = normalize( pos );
     vec3 H = normalize( L + E );
+	
+	//Second light variables
+    vec3 E2 = normalize( pos2 );
+    vec3 H2 = normalize( L2 + E2 );
     
     vec4 NN = vec4(vNormal,0);
  
@@ -43,25 +53,37 @@ void main()
     // Compute terms in the illumination equation
     vec4 ambient = ambientProduct;
  
+ //Light one diffuse and specular
     float Kd = max( dot(L, N), 0.0 );
     vec4  diffuse = Kd*diffuseProduct;
- 
     float Ks = pow( max(dot(N, H), 0.0), shininess );
     vec4  specular = Ks * specularProduct;
+	
+ //Light two diffuse and specular
+    float Kd2 = max( dot(L2, N), 0.0 );
+    vec4  diffuse2 = Kd2*diffuseProduct2;
+    float Ks2 = pow( max(dot(N, H2), 0.0), shininess2 );
+    vec4  specular2 = Ks2 * specularProduct2;
+ 
      
     if( dot(L, N) < 0.0 ) {
       specular = vec4(0.0, 0.0, 0.0, 1.0);
     } 
+	
+	//Light two less than 0 specular
+	if( dot(L2, N) < 0.0 ) {
+      specular2 = vec4(0.00, 0.00, 0.00, 1.0);
+    } 
     gl_Position = projectionMatrix * modelViewMatrix * vPosition;
-    fColor = ambient + diffuse + specular;
+    fColor = ambient + diffuse2 + specular2 + specular + diffuse;
      
     fColor.a = 1.0;
-  }
-  else
-    {
-      gl_Position = projectionMatrix * modelViewMatrix * vPosition;
-      fTexCoord = vTexCoord;
-    }
+//  }
+ // else
+ //   {
+ //     gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+ //     fTexCoord = vTexCoord;
+ //   }
 } 
 </script>
 
@@ -80,7 +102,8 @@ void main()
   if (texture_flag == 0) {
     gl_FragColor = fColor;
   } else {
-    gl_FragColor = texture2D( texture, fTexCoord );
+    //gl_FragColor = texture2D( texture, fTexCoord );
+    gl_FragColor = fColor;
   }
 }
 </script>

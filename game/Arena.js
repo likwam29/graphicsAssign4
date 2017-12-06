@@ -88,6 +88,11 @@ function Arena () {
 	var diffuseProduct = mult(ld0, red);
 	var specularProduct = mult(ls0, red);
 	
+	//more ambient products and math
+	var ambientProduct2 = mult(la02, red);
+	var diffuseProduct2 = mult(ld02, red);
+	var specularProduct2 = mult(ls02, red);
+	
 	gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"),
 		      flatten(ambientProduct));
 	gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"),
@@ -98,6 +103,20 @@ function Arena () {
 		      flatten(lp0) );
 	gl.uniform1f(gl.getUniformLocation(program, "shininess"),
 		     me);
+			 
+			 
+	//This is for assigning the second light source it's values 
+			 
+	gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct2"),
+		      flatten(ambientProduct2));
+	gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct2"),
+		      flatten(diffuseProduct2) );
+	gl.uniform4fv(gl.getUniformLocation(program, "specularProduct2"), 
+		      flatten(specularProduct2) );
+	gl.uniform4fv(gl.getUniformLocation(program, "lightPosition2"), 
+		      flatten(lp02) );
+	gl.uniform1f(gl.getUniformLocation(program, "shininess2"),
+		     me2);
 	
 	// This will draw the walls
 	gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
@@ -117,6 +136,15 @@ function Arena () {
 		      flatten(diffuseProduct) );
 	gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), 
 		      flatten(specularProduct) );	
+			  
+			  
+			  //Second lighting variables
+	gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct2"),
+		      flatten(ambientProduct2));
+	gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct2"),
+		      flatten(diffuseProduct2) );
+	gl.uniform4fv(gl.getUniformLocation(program, "specularProduct2"), 
+		      flatten(specularProduct2) );	
 	
 	gl.drawArrays(gl.TRIANGLE_FAN, 16, 4);
 	// IMPORTANT: Disable current vertex attribute arrays so those in
