@@ -322,11 +322,9 @@ function render()
     for(var i=0; i<totalItems; i++){
 		thingSeeking[i].show();
 	}
-    
-	
+  
 	villain.show();
 	
-    
     // Overhead viewport 
     var horiz_offset = (width * (1.0 - HERO_VP) / 20.0);
     gl.viewport( vp1_left + (HERO_VP * width) + horiz_offset ,
