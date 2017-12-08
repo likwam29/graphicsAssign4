@@ -61,6 +61,9 @@ var g_matrixStack = []; // Stack for storing a matrix
 
 var runGame = false;
 
+// How many seconds the game will run for
+var timerVal = 60;
+
 
 window.onload = function init(){
     canvas = document.getElementById( "gl-canvas" );
@@ -226,17 +229,19 @@ function heroVillianCollision(){
 	// this kinda works, but it's not very smooth
 	// the parseInt is there because the hero's location is a float
 	if(parseInt(hero.x) == villain.x){
-		hero.x -= 500;
+		hero.x -= 100;
+		villain.x += 100;
 	}
 	if(parseInt(hero.z) == villain.z){
-		hero.z -= 500;
+		hero.z += 100;
+		villain.z -= 100;
 	}
 }
 
 // This function will move the villain toward the closest item at the time.
 function villainMove(){
 	var neg = -1.0;
-	var moveRate = 4.5;
+	var moveRate = 2.8;
 	var negX = true;
 	var negZ = true;
 	
@@ -290,7 +295,7 @@ function render()
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	
 	itemCollision();
-	//heroVillianCollision()
+	heroVillianCollision()
 	heroWallCollision();
 	
 	villainMove();
@@ -355,8 +360,30 @@ document.getElementById("startGameButton").addEventListener("click", gameStart);
 
 // This will start/stop the game
 function gameStart(){
-	runGame = !runGame;
-	render();
+	if(!runGame){
+		runGame = !runGame;
+		render();
+		onTimer();
+	}
+	
+}
+
+
+function onTimer() {
+  document.getElementById('mycounter').innerHTML = timerVal + " sec";
+  timerVal--;
+  // if this gets hit then the time has run out and the game is over
+  if (timerVal < 0) {
+	var alertText = "You Lost!";
+	runGame =  false;
+	if(heroCounter > villainCounter){
+		alertText = "You Won!";
+	}
+	alert(alertText);
+  }
+  else {
+    setTimeout(onTimer, 1000);
+  }
 }
 
 function onDocumentKeyDown(event){

@@ -109,20 +109,26 @@ void main()
 </script>
 
 <body>
-<canvas id="gl-canvas" width="1000" height="625">
-Oops ... your browser doesn't support the HTML5 canvas element
-</canvas>
-<div>
-	<p>Hero Score:</p>
-	<span id="heroScore">0</span>
-</div>
-<div>
-	<p>Villain Score:</p>
-	<span id="villainScore">0</span>
-</div>
-<div>
-	<button id="startGameButton" type="button" >Start Game</button>
-</div>
+	<div style="width:625px;">
+		<canvas id="gl-canvas" width="1000" height="625">
+		Oops ... your browser doesn't support the HTML5 canvas element
+		</canvas>
+		<div>
+			<p>Hero Score:</p>
+			<span id="heroScore">0</span>
+		</div>
+		<div>
+			<p>Villain Score:</p>
+			<span id="villainScore">0</span>
+		</div>
+		<div style="float:right;">
+			<div>
+				<button id="startGameButton" type="button" >Start Game</button>
+			</div>
+			<div id="mycounter">60 sec</div>
+		</div>
+	</div>
+
 </body>
 
 <!--Ed Angel WebGL support libraries-->
