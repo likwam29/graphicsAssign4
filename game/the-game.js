@@ -111,15 +111,18 @@ window.onload = function init(){
     render();
 };
 
-
 // This function will create a ratio of the arena size.
 function ratioCreator(){
 	var first = Math.floor(Math.random() * 6) + 1;
-	var second = Math.floor(Math.random() * 6) + 1;
+	var second = Math.floor(Math.random() * 7) + 1;
 	if(first > second){
 		var temp = second;
 		second = first;
 		first = temp;
+	}
+	// this will keep the object off the wall
+	if(first > 1 && first == second){
+		first--;
 	}
 	
 	return ARENASIZE*first/second;
@@ -360,6 +363,13 @@ document.getElementById("startGameButton").addEventListener("click", gameStart);
 
 // This will start/stop the game
 function gameStart(){
+	
+	// if the game has finished change the click functionality
+	if (timerVal < 0){
+		location.reload();
+	}
+	
+	// if the game is not in progress then start it
 	if(!runGame){
 		runGame = !runGame;
 		render();
@@ -379,6 +389,7 @@ function onTimer() {
 	if(heroCounter > villainCounter){
 		alertText = "You Won!";
 	}
+	document.getElementById("startGameButton").innerHTML = "Reset game";
 	alert(alertText);
   }
   else {
