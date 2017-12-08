@@ -200,7 +200,6 @@ function heroWallCollision(){
 	// top wall collision
 	if(hero.z < -998){
 		hero.zdir = (hero.zdir * -1);
-		hero.degrees = (hero.degrees * -1);
 		hero.z = -988;
 	}
 	
@@ -231,13 +230,14 @@ function heroWallCollision(){
 function heroVillianCollision(){
 	// this kinda works, but it's not very smooth
 	// the parseInt is there because the hero's location is a float
-	if(parseInt(hero.x) == villain.x){
-		hero.x -= 100;
-		villain.x += 100;
-	}
-	if(parseInt(hero.z) == villain.z){
-		hero.z += 100;
-		villain.z -= 100;
+	var villainX = villain.x;
+	var villainZ = villain.z;
+	var bound = 10.0;
+	if(hero.x >= (villainX - bound) && hero.x <= (villainX + bound) && hero.z <= (villainZ + bound) && hero.z >= (villainZ - bound)){
+		villain.x -= 100;
+		hero.x += 100;
+		var audio = new Audio('sound.mp3');
+		audio.play();
 	}
 }
 

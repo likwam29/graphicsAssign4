@@ -6,13 +6,14 @@ be declared.
 
 TODO:
 *1. wall collision for hero
-1a. wall collision for villain
+*1a. wall collision for villain
 *2. if user hits object, object disappears and counter is inc
-3. generate N objects on page load in random locations
-4. regenerate objects once threshold has been meet
-5. Make villian move towards objects and collect them like hero
-6. add game timer and game over conditions
-7. reset game button
+*3. generate N objects on page load in random locations
+*4. regenerate objects once threshold has been meet
+*5. Make villian move towards objects and collect them like hero
+*6. add game timer and game over conditions
+*7. reset game button
+8. add texture somewhere in the game
 
 Add ons:
 1. Obstacles and collision for them
