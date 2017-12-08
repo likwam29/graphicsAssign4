@@ -59,6 +59,8 @@ var villainCounter = 0;
 
 var g_matrixStack = []; // Stack for storing a matrix
 
+var runGame = false;
+
 
 window.onload = function init(){
     canvas = document.getElementById( "gl-canvas" );
@@ -336,8 +338,10 @@ function render()
 	
 	villain.show();
 	
-
-    requestAnimFrame( render );
+	if(runGame){
+		requestAnimFrame( render );
+	}
+    
 };
 
 // Key listener
@@ -345,6 +349,16 @@ function render()
 var keyMap = [];
 document.addEventListener("keydown", onDocumentKeyDown, true); 
 document.addEventListener("keyup", onDocumentKeyUp, true);
+
+// the start button click listener
+document.getElementById("startGameButton").addEventListener("click", gameStart);
+
+// This will start/stop the game
+function gameStart(){
+	runGame = !runGame;
+	render();
+}
+
 function onDocumentKeyDown(event){
     var keyCode = event.keyCode;
     keyMap[keyCode] = true;

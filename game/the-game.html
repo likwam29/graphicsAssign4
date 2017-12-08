@@ -108,6 +108,23 @@ void main()
 }
 </script>
 
+<body>
+<canvas id="gl-canvas" width="1000" height="625">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+<div>
+	<p>Hero Score:</p>
+	<span id="heroScore">0</span>
+</div>
+<div>
+	<p>Villain Score:</p>
+	<span id="villainScore">0</span>
+</div>
+<div>
+	<button id="startGameButton" type="button" >Start Game</button>
+</div>
+</body>
+
 <!--Ed Angel WebGL support libraries-->
 <script type="text/javascript" src="../Common/webgl-utils.js"></script>
 <script type="text/javascript" src="../Common/initShaders.js"></script>
@@ -121,18 +138,4 @@ void main()
 <script type="text/javascript" src="ThingSeeking.js"></script>
 <script type="text/javascript" src="Villain.js"></script>
 <script type="text/javascript" src="the-game.js"></script>
-
-<body>
-<canvas id="gl-canvas" width="1000" height="625">
-Oops ... your browser doesn't support the HTML5 canvas element
-</canvas>
-<div>
-	<p>Hero Score:</p>
-	<span id="heroScore">0</span>
-</div>
-<div>
-	<p>Villain Score:</p>
-	<span id="villainScore">0</span>
-</div>
-</body>
 </html>
