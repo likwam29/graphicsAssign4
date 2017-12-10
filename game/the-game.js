@@ -106,7 +106,7 @@ window.onload = function init(){
 		
 	var arenaX = ratioCreator();	
 	var arenaZ = ratioCreator() * -1;
-    thingSeeking2 = new ThingSeeking2(program, arenaX, 75.0, arenaZ, 0, 10.0);
+    thingSeeking2 = new ThingSeeking2(program, arenaX, 0.0, arenaZ, 0, 10.0);
     thingSeeking2.init();
 
 	// this defines where to put the vw on the page.
@@ -272,13 +272,17 @@ function heroVillianCollision(){
 		hero.x += 100;
 		var audio = new Audio('sound.mp3');
 		audio.play();
+		heroCounter -= 5;
+		villainCounter += 5;
+		document.getElementById("villainScore").innerHTML = villainCounter;
+		document.getElementById("heroScore").innerHTML = heroCounter;
 	}
 }
 
 // This function will move the villain toward the closest item at the time.
 function villainMove(){
 	var neg = -1.0;
-	var moveRate = 2.8;
+	var moveRate = 3.8;
 	var negX = true;
 	var negZ = true;
 	
@@ -359,7 +363,6 @@ function render()
 		thingSeeking[i].show();
 	}
 	
-	thingSeeking2.show();
   
 	villain.show();
 	
@@ -382,7 +385,6 @@ function render()
 	
 	villain.show();
 	
-	thingSeeking2.show();
 	
 	if(runGame){
 		requestAnimFrame( render );
