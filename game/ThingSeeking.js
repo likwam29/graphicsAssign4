@@ -16,6 +16,7 @@ function ThingSeeking(program, x, y, z, degrees, bounding_cir_rad)  {
     this.vPosition = null;
     this.vNormal = null;
 	this.isHit = false;
+	this.hasTexture = false;
 };
 
 ThingSeeking.prototype = Object.create(GameObject.prototype);

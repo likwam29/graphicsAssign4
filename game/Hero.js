@@ -15,6 +15,7 @@ function Hero(program, x, y, z, degrees, bounding_cir_rad)  {
     this.iBuffer = null;
     this.vPosition = null;
     this.vNormal = null;
+	this.hasTexture = false;
 };
 
 Hero.prototype = Object.create(GameObject.prototype);

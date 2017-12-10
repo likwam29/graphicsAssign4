@@ -52,6 +52,7 @@ var totalItems = 15;
 var arena;
 var hero;
 var thingSeeking;
+var thingSeeking2;
 var villain;
 
 var heroCounter = 0;
@@ -101,6 +102,11 @@ window.onload = function init(){
 
     hero = new Hero(program, eyex, 0.0, eyez, 45, 10.0);
     hero.init();
+		
+	var arenaX = ratioCreator();	
+	var arenaZ = ratioCreator() * -1;
+    thingSeeking2 = new ThingSeeking2(program, arenaX, 0.0, arenaZ, 0, 10.0);
+    thingSeeking2.init();
 
 	// this defines where to put the vw on the page.
     thingSeeking = createItems(totalItems);
@@ -161,8 +167,28 @@ function itemCollision(){
 			 exists on the page and will continue to hit it if we sit in the spot where it was
 			 causing the counter to keep running
 			 */
-			thingSeeking[i].x = ratioCreator();
-			thingSeeking[i].z = ratioCreator() * -1;
+			var arenaX = ratioCreator();
+
+			var arenaZ = ratioCreator() * -1;
+			
+			if ((heroCounter) % 5 == 0){
+			//If the object is a special object then add 5 to the total
+				if(thingSeeking[i].hasTexture)
+				{
+					heroCounter += 5;
+				}
+				thingSeeking[i] = new ThingSeeking2(program, arenaX, 0.0, arenaZ, 0, 10.0);
+				thingSeeking[i].init();
+			}
+			else {
+			//If the object is a special object then add 5 to the total
+				if(thingSeeking[i].hasTexture)
+				{
+					heroCounter += 5;
+				}
+				thingSeeking[i] = new ThingSeeking(program, arenaX, 0.0, arenaZ, 0, 10.0);
+				thingSeeking[i].init();
+			}
 			document.getElementById("heroScore").innerHTML = heroCounter;
 			var audio = new Audio('ching.mp3');
 			audio.play();
@@ -171,6 +197,11 @@ function itemCollision(){
 		
 		if(villain.x >= (thingX - bound) && villain.x <= (thingX + bound) && villain.z <= (thingZ + bound) && villain.z >= (thingZ - bound)){
 			villainCounter++;
+			//If the object is a special object then add 5 to the total
+			if(thingSeeking[i].hasTexture)
+			{
+				villainCounter += 4;
+			}
 			//thingSeeking[i].isHit = true;
 			thingSeeking[i].x = ratioCreator();
 			thingSeeking[i].z = ratioCreator() * -1;

@@ -22,7 +22,7 @@ varying vec2 fTexCoord;
 
 void main() 
 {
-  //if (texture_flag == 0) {
+  if (texture_flag == 0) {
     vec3 pos = (modelViewMatrix * vPosition).xyz;
     vec3 pos2 = vNormal.xyz;
      
@@ -78,12 +78,12 @@ void main()
     fColor = ambient + diffuse2 + specular2 + specular + diffuse;
      
     fColor.a = 1.0;
-//  }
- // else
- //   {
- //     gl_Position = projectionMatrix * modelViewMatrix * vPosition;
- //     fTexCoord = vTexCoord;
- //   }
+	}
+  else
+    {
+     gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+      fTexCoord = vTexCoord;
+    }
 } 
 </script>
 
@@ -102,8 +102,7 @@ void main()
   if (texture_flag == 0) {
     gl_FragColor = fColor;
   } else {
-    //gl_FragColor = texture2D( texture, fTexCoord );
-    gl_FragColor = fColor;
+    gl_FragColor = texture2D( texture, fTexCoord );
   }
 }
 </script>
@@ -142,6 +141,7 @@ void main()
 <script type="text/javascript" src="GameObject.js"></script>
 <script type="text/javascript" src="Hero.js"></script>
 <script type="text/javascript" src="ThingSeeking.js"></script>
+<script type="text/javascript" src="ThingSeeking2.js"></script>
 <script type="text/javascript" src="Villain.js"></script>
 <script type="text/javascript" src="the-game.js"></script>
 </html>
