@@ -16,13 +16,15 @@ uniform vec4 lightPosition;
 uniform vec4 lightPosition2;
 uniform float shininess;
 uniform float shininess2;
+varying vec3 objPos;
 
 varying vec4 fColor;
 varying vec2 fTexCoord;
 
 void main() 
 {
-  if (texture_flag == 0) {
+  objPos = vPosition.xyz;
+  if (texture_flag == 0 || texture_flag == 2) {
     vec3 pos = (modelViewMatrix * vPosition).xyz;
     vec3 pos2 = vNormal.xyz;
      
@@ -96,13 +98,35 @@ uniform sampler2D texture;
 
 varying vec4 fColor;
 varying vec2 fTexCoord;
+varying vec3 objPos;	
+vec3 returnColor;
 
 void main()
 {
   if (texture_flag == 0) {
     gl_FragColor = fColor;
-  } else {
-    gl_FragColor = texture2D( texture, fTexCoord );
+  } else if(texture_flag == 2){
+		float objectX = floor(objPos.x * 20.0);
+		float objectY = floor(objPos.y * 20.0);
+		float objectZ = floor(objPos.z * 20.0);
+		
+		float posMod = objectX + objectY + objectZ;	
+		//Snakeskin texture
+		if( posMod - 4.0 * floor(posMod / 4.0) == 0.0) {
+			returnColor = vec3(.7, 0.50, 0);
+		}
+		else if(posMod - 4.0 * floor(posMod / 4.0) == 1.0){
+			returnColor = vec3(0, 0, 0);
+		}
+		else if(posMod - 4.0 * floor(posMod / 4.0) == 2.0){
+			returnColor = vec3(0, 0, 0);
+		}
+		else{
+			returnColor = vec3(.0, 0.0, 1.0);
+		}
+		gl_FragColor = vec4(returnColor, 1.0);
+	} else{
+		gl_FragColor = texture2D( texture, fTexCoord );
   }
 }
 </script>

@@ -92,6 +92,8 @@ function Arena () {
 	var ambientProduct2 = mult(la02, red);
 	var diffuseProduct2 = mult(ld02, red);
 	var specularProduct2 = mult(ls02, red);
+	gl.uniform1i(gl.getUniformLocation(program, "texture_flag"),
+ 		 0);
 	
 	gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"),
 		      flatten(ambientProduct));

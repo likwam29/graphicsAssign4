@@ -119,6 +119,8 @@ Villain.prototype.show = function() {
     var diffuseProduct = mult(ld0, yellow);
     var specularProduct = mult(ls0, yellow);
     
+    gl.uniform1i(gl.getUniformLocation(program, "texture_flag"),
+ 		 2);
     gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"),
 		  flatten(ambientProduct));
     gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"),
