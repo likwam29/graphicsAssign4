@@ -164,6 +164,8 @@ function itemCollision(){
 			thingSeeking[i].x = ratioCreator();
 			thingSeeking[i].z = ratioCreator() * -1;
 			document.getElementById("heroScore").innerHTML = heroCounter;
+			var audio = new Audio('ching.mp3');
+			audio.play();
 			break;
 		}
 		
