@@ -77,6 +77,7 @@ window.onload = function init(){
     
 	// This will dictate the sky color
     gl.clearColor( 0.0, 0.75, 1.0, 1.0 );
+	gl.enable(gl.DEPTH_TEST);
 
     //  Load shaders and initialize attribute buffers
 
@@ -105,7 +106,7 @@ window.onload = function init(){
 		
 	var arenaX = ratioCreator();	
 	var arenaZ = ratioCreator() * -1;
-    thingSeeking2 = new ThingSeeking2(program, arenaX, 0.0, arenaZ, 0, 10.0);
+    thingSeeking2 = new ThingSeeking2(program, arenaX, 75.0, arenaZ, 0, 10.0);
     thingSeeking2.init();
 
 	// this defines where to put the vw on the page.
@@ -326,9 +327,11 @@ function villainMove(){
 
 function render()
 {
+	
+    gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+	
 	// this needs to be here so while holding movement key it still moves.
 	executeMovement();
-    gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	
 	itemCollision();
 	heroVillianCollision()
@@ -355,6 +358,8 @@ function render()
     for(var i=0; i<totalItems; i++){
 		thingSeeking[i].show();
 	}
+	
+	thingSeeking2.show();
   
 	villain.show();
 	
@@ -376,6 +381,8 @@ function render()
 	}
 	
 	villain.show();
+	
+	thingSeeking2.show();
 	
 	if(runGame){
 		requestAnimFrame( render );

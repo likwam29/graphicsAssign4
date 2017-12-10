@@ -123,7 +123,7 @@ ThingSeeking2.prototype.show = function() {
 
     g_matrixStack.push(modelViewMatrix);
     this.rotate = this.rotate + 0.5;
-    modelViewMatrix = mult(modelViewMatrix, translate(this.x, 0.0, this.z));
+    modelViewMatrix = mult(modelViewMatrix, translate(this.x, this.y, this.z));
     modelViewMatrix = mult(modelViewMatrix, scalem(50.0,50.0,50.0));
     modelViewMatrix = mult(modelViewMatrix, rotateY(this.rotate));
 
