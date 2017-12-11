@@ -1,0 +1,5 @@
+Welcome to Matt and Sean's game. 
+
+The game is pretty simple. The goal is to collect more points than the villain before the time runs out. Once you click the start button the villain will begin moving and collecting VWs. Use the arrow keys in order to move around the map and grab your own. Once you run into a VW it will automatically be counted and you should hear a sound. Once you have collected 5 VWs then a special item will appear that is worth 5 times as much. Be careful not to run into the villain, because he is a theif and will steal some of your score and add it to his own. Once the time has run out a winner will be declared and you can restart the game by clicking the restart button.
+
+GGW: Procedural texture on villain. Special item generation at specific point in game. Multi-key movement for a better gaming experience, sound effects during hero villain collision and item collection so the user knows when contact has been made.
